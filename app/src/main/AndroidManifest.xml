@@ -11,7 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".functionalities.login.LoginActivity"></activity>
-        <activity android:name=".functionalities.main.MainActivity">
+        <activity
+            android:name=".functionalities.main.MainActivity"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
