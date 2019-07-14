@@ -1,6 +1,7 @@
 package pl.holker.organizeu_android.functionalities.main
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,7 @@ import pl.holker.organizeu_android.R
 import pl.holker.organizeu_android.databinding.ActivityMainBinding
 import pl.holker.organizeu_android.di.Injectable
 import pl.holker.organizeu_android.di.ViewModelInjectionFactory
+import pl.holker.organizeu_android.functionalities.start.StartActivity
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), Injectable {
@@ -30,8 +32,14 @@ class MainActivity : AppCompatActivity(), Injectable {
         initBinding()
 
         if (isLogged()) {
-
+            toStartActivity()
         }
+    }
+
+    private fun toStartActivity() {
+        val i = Intent(applicationContext, StartActivity::class.java)
+        startActivity(i)
+        finish()
     }
 
     private fun isLogged(): Boolean {
