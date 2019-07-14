@@ -2,4 +2,6 @@
     <string name="app_name">OrganizeU-Android</string>
     <string name="logo">Logo</string>
     <string name="user_id">user_id</string>
+    <string name="shared_pref">OrganizeU</string>
+    <string name="is_logged">isLogged</string>
 </resources>

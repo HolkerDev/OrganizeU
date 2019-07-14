@@ -16,7 +16,6 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), Injectable {
 
-    private val PREF_NAME = "OrganizeU"
     private val TAG = MainActivity::class.java.name
 
     private lateinit var binding: ActivityMainBinding
@@ -32,18 +31,30 @@ class MainActivity : AppCompatActivity(), Injectable {
         initBinding()
 
         if (isLogged()) {
-            toStartActivity()
+            toStartActivity(true)
+        } else {
+            createNewUserLocally()
+            toStartActivity(false)
         }
     }
 
-    private fun toStartActivity() {
+    private fun createNewUserLocally() {
+        val sharedPreferences = this.getSharedPreferences(getString(R.string.shared_pref), Context.MODE_PRIVATE)
+        with(sharedPreferences.edit()) {
+            putInt(getString(R.string.user_id), Math.random().toInt())
+            apply()
+        }
+    }
+
+    private fun toStartActivity(isLogged: Boolean) {
         val i = Intent(applicationContext, StartActivity::class.java)
+        i.putExtra(getString(R.string.is_logged), isLogged)
         startActivity(i)
         finish()
     }
 
     private fun isLogged(): Boolean {
-        val sharedPreferences = this.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        val sharedPreferences = this.getSharedPreferences(getString(R.string.shared_pref), Context.MODE_PRIVATE)
         val userId = sharedPreferences.getInt(getString(R.string.user_id), 0)
         Log.i(TAG, "Getting user id: $userId")
         return userId != 0
