@@ -14,10 +14,10 @@ import pl.holker.organizeu_android.di.components.AppComponent
 import pl.holker.organizeu_android.di.components.DaggerAppComponent
 
 object AppInjector {
-    fun init(pgsTripApp: OrganizeU): AppComponent {
-        val component = DaggerAppComponent.builder().application(pgsTripApp).build()
-        component.inject(pgsTripApp)
-        pgsTripApp
+    fun init(organizeU: OrganizeU): AppComponent {
+        val component = DaggerAppComponent.builder().application(organizeU).build()
+        component.inject(organizeU)
+        organizeU
             .registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
                 override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
                     handleActivity(activity)
