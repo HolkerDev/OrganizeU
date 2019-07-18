@@ -1,4 +1,4 @@
-package pl.holker.oraganizeu_android
+package pl.holker.organizeu_android
 
 import org.junit.Test
 
