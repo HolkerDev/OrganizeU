@@ -19,6 +19,8 @@ class StartActivity : AppCompatActivity(), Injectable {
     @Inject
     lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<StartActivityVM>
 
+    private lateinit var mSelectionsPagerAdapter: SelectionsFragmentAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initBinding()
@@ -26,7 +28,8 @@ class StartActivity : AppCompatActivity(), Injectable {
 
     private fun initBinding() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_start)
-        viewModel = ViewModelProviders.of(this, viewModelInjectionFactory).get(StartActivityVM::class.java)
+        viewModel =
+            ViewModelProviders.of(this, viewModelInjectionFactory).get(StartActivityVM::class.java)
         binding.viewModel = viewModel
     }
 }

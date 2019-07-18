@@ -1,7 +1,7 @@
 package pl.holker.organizeu_android.functionalities.login
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import pl.holker.organizeu_android.R
 
 class LoginActivity : AppCompatActivity() {
