@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -8,47 +9,27 @@
             type="pl.holker.organizeu_android.functionalities.start.StartActivityVM" />
     </data>
 
-    <RelativeLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-
-        <RelativeLayout
-            android:id="@+id/start_rl_topBar"
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/start_tl_tabs"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:tabGravity="fill"
+                app:tabMode="fixed" />
+        </com.google.android.material.appbar.AppBarLayout>
 
-
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/start_tl_tabs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-
-                </com.google.android.material.tabs.TabLayout>
-
-            </androidx.appcompat.widget.Toolbar>
-
-        </RelativeLayout>
-
-
-        <RelativeLayout
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/start_vp_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/start_rl_topBar">
-
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/start_vp_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            </androidx.viewpager.widget.ViewPager>
-
-        </RelativeLayout>
-    </RelativeLayout>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
