@@ -1,5 +1,6 @@
 package pl.holker.organizeu_android.functionalities.start
 
+import android.graphics.PorterDuff
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -23,6 +24,9 @@ class StartActivity : AppCompatActivity(), Injectable {
     lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<StartActivityVM>
 
     private lateinit var mSelectionsPagerAdapter: SelectionsFragmentAdapter
+    val tabIcons = arrayListOf<Int>(
+        R.drawable.ic_notes, R.drawable.ic_map_48
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +39,7 @@ class StartActivity : AppCompatActivity(), Injectable {
         setupViewPager()
         start_tl_tabs.setupWithViewPager(start_vp_container)
         start_vp_container.currentItem = 0
+        setupFragmentsIcons()
     }
 
 
@@ -43,6 +48,17 @@ class StartActivity : AppCompatActivity(), Injectable {
         fragmentAdapter.addFragment("Notes", TypicalNotesFragment())
         fragmentAdapter.addFragment("Locations", LocationNotesFragment())
         start_vp_container.adapter = mSelectionsPagerAdapter
+    }
+
+    private fun setupFragmentsIcons() {
+        start_tl_tabs.getTabAt(0)?.setIcon(tabIcons[0])
+        start_tl_tabs.getTabAt(0)?.icon?.setColorFilter(
+            resources.getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN
+        )
+        start_tl_tabs.getTabAt(1)?.setIcon(tabIcons[1])
+        start_tl_tabs.getTabAt(1)?.icon?.setColorFilter(
+            resources.getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN
+        )
     }
 
     private fun initBinding() {
