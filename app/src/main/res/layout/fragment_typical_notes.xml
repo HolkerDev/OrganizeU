@@ -14,12 +14,12 @@
         android:layout_height="match_parent"
         android:background="@color/colorPrimaryDark">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/all_rooms_recycle"
+        <GridLayout
+            android:id="@+id/typical_notes_gl_notes"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        </androidx.recyclerview.widget.RecyclerView>
+        </GridLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingActionButton"
