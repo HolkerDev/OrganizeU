@@ -29,6 +29,7 @@ android {
 
 ext {
     daggerVersion = '2.16'
+    room_version = "2.2.0-alpha01"
 }
 
 dependencies {
@@ -53,4 +54,9 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:1.1.1"
     annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
     implementation 'com.google.android.material:material:1.0.0'
+    //Room
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt("androidx.room:room-compiler:$room_version")
+    implementation "androidx.room:room-rxjava2:$room_version"
+
 }
