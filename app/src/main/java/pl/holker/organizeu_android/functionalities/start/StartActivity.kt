@@ -4,7 +4,11 @@ import android.graphics.PorterDuff
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_start.*
 import pl.holker.organizeu_android.R
 import pl.holker.organizeu_android.databinding.ActivityStartBinding
@@ -14,14 +18,17 @@ import pl.holker.organizeu_android.functionalities.location_notes.LocationNotesF
 import pl.holker.organizeu_android.functionalities.typical_notes.TypicalNotesFragment
 import javax.inject.Inject
 
-class StartActivity : AppCompatActivity(), Injectable {
+class StartActivity : AppCompatActivity(), Injectable, HasSupportFragmentInjector {
+
+    @Inject lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
+
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> = dispatchingAndroidInjector
 
     private val TAG = StartActivity::class.java.name
 
     private lateinit var binding: ActivityStartBinding
     private lateinit var viewModel: StartActivityVM
-    @Inject
-    lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<StartActivityVM>
+    @Inject lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<StartActivityVM>
 
     private lateinit var mSelectionsPagerAdapter: SelectionsFragmentAdapter
     val tabIcons = arrayListOf<Int>(

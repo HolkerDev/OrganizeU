@@ -13,6 +13,6 @@ abstract class ActivityModule {
     abstract fun contributeMainActivity(): MainActivity
 
     @ActivityScope
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [FragmentsModule::class])
     abstract fun contributeStartActivity(): StartActivity
 }

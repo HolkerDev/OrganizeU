@@ -9,21 +9,21 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import pl.holker.organizeu_android.R
 import pl.holker.organizeu_android.databinding.FragmentTypicalNotesBinding
+import pl.holker.organizeu_android.di.Injectable
 import pl.holker.organizeu_android.di.ViewModelInjectionFactory
 import javax.inject.Inject
 
-class TypicalNotesFragment : Fragment() {
+class TypicalNotesFragment @Inject constructor() : Fragment(), Injectable {
 
     private val TAG = TypicalNotesFragment::class.java.name
 
     private lateinit var viewModel: TypicalNotesVM
     private lateinit var binding: FragmentTypicalNotesBinding
-    @Inject
-    lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<TypicalNotesVM>
+    @Inject lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<TypicalNotesVM>
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
 
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_typical_notes, container, false)
