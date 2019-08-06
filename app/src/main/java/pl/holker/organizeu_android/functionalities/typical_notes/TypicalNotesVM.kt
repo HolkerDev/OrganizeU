@@ -19,10 +19,10 @@ class TypicalNotesVM @Inject constructor(application: Application) : AndroidView
         return datasource.addNote(note)
     }
 
-    fun getAmount(): Flowable<Int> {
+    fun getAmount(): Flowable<List<Note>> {
         var list = datasource.getAllNotes()
         return list.map { listNote: List<Note> ->
-            listNote.size
+            listNote
         }
     }
 

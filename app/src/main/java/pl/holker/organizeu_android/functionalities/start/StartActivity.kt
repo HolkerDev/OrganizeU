@@ -20,7 +20,8 @@ import javax.inject.Inject
 
 class StartActivity : AppCompatActivity(), Injectable, HasSupportFragmentInjector {
 
-    @Inject lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
+    @Inject
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> = dispatchingAndroidInjector
 
@@ -28,11 +29,12 @@ class StartActivity : AppCompatActivity(), Injectable, HasSupportFragmentInjecto
 
     private lateinit var binding: ActivityStartBinding
     private lateinit var viewModel: StartActivityVM
-    @Inject lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<StartActivityVM>
+    @Inject
+    lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<StartActivityVM>
 
     private lateinit var mSelectionsPagerAdapter: SelectionsFragmentAdapter
     val tabIcons = arrayListOf<Int>(
-        R.drawable.ic_notes, R.drawable.ic_map_48
+            R.drawable.ic_notes, R.drawable.ic_map_48
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,18 +62,19 @@ class StartActivity : AppCompatActivity(), Injectable, HasSupportFragmentInjecto
     private fun setupFragmentsIcons() {
         start_tl_tabs.getTabAt(0)?.setIcon(tabIcons[0])
         start_tl_tabs.getTabAt(0)?.icon?.setColorFilter(
-            resources.getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN
+                resources.getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN
         )
         start_tl_tabs.getTabAt(1)?.setIcon(tabIcons[1])
         start_tl_tabs.getTabAt(1)?.icon?.setColorFilter(
-            resources.getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN
+                resources.getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN
         )
     }
 
     private fun initBinding() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_start)
         viewModel =
-            ViewModelProviders.of(this, viewModelInjectionFactory).get(StartActivityVM::class.java)
+                ViewModelProviders.of(this, viewModelInjectionFactory)
+                        .get(StartActivityVM::class.java)
         binding.viewModel = viewModel
     }
 }
