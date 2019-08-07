@@ -17,8 +17,8 @@ abstract class NotesDatabase : RoomDatabase() {
             INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
         }
 
-        fun buildDatabase(context: Context) = Room.databaseBuilder(
-                context.applicationContext, NotesDatabase::class.java, "Notes_database"
+        private fun buildDatabase(context: Context) = Room.databaseBuilder(
+            context.applicationContext, NotesDatabase::class.java, "Notes_database"
         ).build()
     }
 }

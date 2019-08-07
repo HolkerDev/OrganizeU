@@ -64,21 +64,23 @@ class TypicalNotesFragment @Inject constructor() : Fragment(), Injectable {
 
 
         floatingActionButton.setOnClickListener {
-            _disposable.add(_viewModel.insert().subscribeOn(Schedulers.io()).observeOn(
-                AndroidSchedulers.mainThread()
-            ).subscribe {
-            })
+            //TODO: Bind to create new dialog
         }
 
         //Pull note list
-        _disposable.add(_viewModel.getAmount().subscribeOn(Schedulers.io()).observeOn(
-            AndroidSchedulers.mainThread()
-        ).subscribe {
-            Log.i(TAG, "Start pulling note list")
-            _adapter.items = it
-            _adapter.notifyDataSetChanged()
-            Log.i(TAG, "Pulling was finished")
-        })
+        _disposable.add(
+            _viewModel.getAmount().subscribeOn(Schedulers.io()).observeOn(
+                AndroidSchedulers.mainThread()
+            ).subscribe({ noteList ->
+                Log.i(TAG, "Start pulling note list")
+                _adapter.items = noteList
+                _adapter.notifyDataSetChanged()
+                Log.i(TAG, "Pulling was finished")
+            }, { error ->
+                Log.e(TAG, "Error while pulling notes : ${error.message}")
+            })
+        )
+
     }
 
     private fun dpToPx(dp: Int): Int {
