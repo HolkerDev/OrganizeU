@@ -18,6 +18,7 @@ import pl.holker.organizeu_android.R
 import pl.holker.organizeu_android.databinding.FragmentTypicalNotesBinding
 import pl.holker.organizeu_android.di.Injectable
 import pl.holker.organizeu_android.di.ViewModelInjectionFactory
+import pl.holker.organizeu_android.functionalities.typical_notes.model.AddNoteDialog
 import pl.holker.organizeu_android.functionalities.typical_notes.model.GridSpacingItemDecoration
 import pl.holker.organizeu_android.functionalities.typical_notes.model.TypicalNoteAdapter
 import javax.inject.Inject
@@ -64,7 +65,8 @@ class TypicalNotesFragment @Inject constructor() : Fragment(), Injectable {
 
 
         floatingActionButton.setOnClickListener {
-            //TODO: Bind to create new dialog
+            val dialog = AddNoteDialog(viewModel = _viewModel)
+            dialog.show(childFragmentManager, "Add note")
         }
 
         //Pull note list
@@ -75,7 +77,7 @@ class TypicalNotesFragment @Inject constructor() : Fragment(), Injectable {
                 Log.i(TAG, "Start pulling note list")
                 _adapter.items = noteList
                 _adapter.notifyDataSetChanged()
-                Log.i(TAG, "Pulling was finished")
+                Log.i(TAG, "Pulling was finished. Items in list : ${noteList.size}")
             }, { error ->
                 Log.e(TAG, "Error while pulling notes : ${error.message}")
             })

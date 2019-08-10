@@ -15,7 +15,7 @@ class TypicalNotesVM @Inject constructor(application: Application) : AndroidView
     private val disposable = CompositeDisposable()
 
     fun insert(): Completable {
-        val note = Note(0, "Test")
+        val note = Note(0, "Test","Some content just for test")
         return datasource.addNote(note)
     }
 
