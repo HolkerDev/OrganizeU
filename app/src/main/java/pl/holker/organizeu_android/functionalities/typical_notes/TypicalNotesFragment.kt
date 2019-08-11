@@ -1,12 +1,16 @@
 package pl.holker.organizeu_android.functionalities.typical_notes
 
 import android.os.Bundle
+import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.GridLayoutManager
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -15,43 +19,101 @@ import pl.holker.organizeu_android.R
 import pl.holker.organizeu_android.databinding.FragmentTypicalNotesBinding
 import pl.holker.organizeu_android.di.Injectable
 import pl.holker.organizeu_android.di.ViewModelInjectionFactory
+import pl.holker.organizeu_android.functionalities.typical_notes.model.AddNoteDialog
+import pl.holker.organizeu_android.functionalities.typical_notes.model.GridSpacingItemDecoration
+import pl.holker.organizeu_android.functionalities.typical_notes.model.TypicalNoteAdapter
+import pl.holker.organizeu_android.functionalities.typical_notes.model.TypicalNoteEvent
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 class TypicalNotesFragment @Inject constructor() : Fragment(), Injectable {
 
     private val TAG = TypicalNotesFragment::class.java.name
+    private lateinit var _viewModel: TypicalNotesVM
+    private lateinit var _binding: FragmentTypicalNotesBinding
+    private val _disposable = CompositeDisposable()
+    private lateinit var _adapter: TypicalNoteAdapter
 
-    private lateinit var viewModel: TypicalNotesVM
-    private lateinit var binding: FragmentTypicalNotesBinding
-    private val disposable = CompositeDisposable()
 
     @Inject
     lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<TypicalNotesVM>
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
 
-        binding =
-                DataBindingUtil.inflate(inflater, R.layout.fragment_typical_notes, container, false)
-        viewModel =
-                ViewModelProviders.of(this, viewModelInjectionFactory).get(TypicalNotesVM::class.java)
+        _binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_typical_notes, container, false)
+        _viewModel =
+            ViewModelProviders.of(this, viewModelInjectionFactory)
+                .get(TypicalNotesVM::class.java)
 
-        binding.viewModel = viewModel
-        return binding.root
+        _binding.viewModel = _viewModel
+        return _binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        _adapter = TypicalNoteAdapter(listOf())
+        card_note_recycler_view.layoutManager = GridLayoutManager(context, 2)
+        card_note_recycler_view.addItemDecoration(GridSpacingItemDecoration(2, dpToPx(10), true))
+        card_note_recycler_view.adapter = _adapter
     }
 
     override fun onStart() {
         super.onStart()
 
+
+        initObservables()
+
         floatingActionButton.setOnClickListener {
-            disposable.add(viewModel.insert().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe {
-                typical_notes_tv_test.text = "Done"
-            })
+            val dialog = AddNoteDialog(viewModel = _viewModel)
+            dialog.show(childFragmentManager, "Add note")
         }
 
-        disposable.add(viewModel.getAmount().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe {
-            typical_notes_tv_test.text = it.toString()
+        //Pull note list
+        _disposable.add(
+            _viewModel.getAmount().subscribeOn(Schedulers.io()).observeOn(
+                AndroidSchedulers.mainThread()
+            ).subscribe({ noteList ->
+                Log.i(TAG, "Start pulling note list")
+                _adapter.items = noteList
+                _adapter.notifyDataSetChanged()
+                Log.i(TAG, "Pulling was finished. Items in list : ${noteList.size}")
+            }, { error ->
+                Log.e(TAG, "Error while pulling notes : ${error.message}")
+            })
+        )
+
+    }
+
+    private fun initObservables() {
+        _viewModel.event.observe(this, Observer { action ->
+            when (action) {
+                is TypicalNoteEvent.InsertNote -> {
+                    _disposable.add(
+                        _viewModel.insertNote(
+                            action.title,
+                            action.content
+                        ).subscribeOn(Schedulers.io()).observeOn(
+                            AndroidSchedulers.mainThread()
+                        ).subscribe({
+                        }, { error ->
+                            Log.e(TAG, "Error while adding a new note : ${error.message}")
+                        })
+                    )
+                }
+            }
         })
+    }
+
+    private fun dpToPx(dp: Int): Int {
+        val resource = resources
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            dp.toFloat(),
+            resource.displayMetrics
+        ).roundToInt()
     }
 }

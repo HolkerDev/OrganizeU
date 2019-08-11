@@ -10,13 +10,14 @@ abstract class NotesDatabase : RoomDatabase() {
     abstract fun noteDao(): NoteDao
 
     companion object {
-        @Volatile private var INSTANCE: NotesDatabase? = null
+        @Volatile
+        private var INSTANCE: NotesDatabase? = null
 
         fun getInstance(context: Context): NotesDatabase = INSTANCE ?: synchronized(this) {
             INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
         }
 
-        fun buildDatabase(context: Context) = Room.databaseBuilder(
+        private fun buildDatabase(context: Context) = Room.databaseBuilder(
             context.applicationContext, NotesDatabase::class.java, "Notes_database"
         ).build()
     }
