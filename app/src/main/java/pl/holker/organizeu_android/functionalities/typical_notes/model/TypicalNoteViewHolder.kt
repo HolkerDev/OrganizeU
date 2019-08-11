@@ -10,6 +10,7 @@ import pl.holker.organizeu_android.data.persistance.Note
 class TypicalNoteViewHolder(val inflater: LayoutInflater, parent: ViewGroup) :
     RecyclerView.ViewHolder(inflater.inflate(R.layout.card_note, parent, false)) {
     fun bind(note: Note) {
-        itemView.card_note_tv_test.text = note.content
+        itemView.card_note_tv_title.text = note.title
+        itemView.card_note_tv_content.text = note.content
     }
 }

@@ -35,6 +35,7 @@ class AddNoteDialog(var viewModel: TypicalNotesVM) : DialogFragment() {
                 dialog.dialog_add_note_et_title.text.toString(),
                 dialog.dialog_add_note_et_content.text.toString()
             )
+            dialog.cancel()
         }
     }
 }
