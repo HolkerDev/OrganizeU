@@ -2,20 +2,20 @@ package pl.holker.organizeu_android.functionalities.typical_notes
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import io.reactivex.Completable
 import io.reactivex.Flowable
-import io.reactivex.disposables.CompositeDisposable
 import pl.holker.organizeu_android.data.persistance.Note
 import pl.holker.organizeu_android.data.persistance.NotesDatabase
+import pl.holker.organizeu_android.functionalities.typical_notes.model.TypicalNoteEvent
 import javax.inject.Inject
 
 class TypicalNotesVM @Inject constructor(application: Application) : AndroidViewModel(application) {
     var datasource = NotesDatabase.getInstance(application.applicationContext).noteDao()
+    var event = MutableLiveData<TypicalNoteEvent>()
 
-    private val disposable = CompositeDisposable()
-
-    fun insert(): Completable {
-        val note = Note(0, "Test","Some content just for test")
+    fun insertNote(title: String, content: String): Completable {
+        val note = Note(0, title, content)
         return datasource.addNote(note)
     }
 
