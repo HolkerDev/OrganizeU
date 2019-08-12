@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="pl.holker.organizeu_android">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".OrganizeU"
         android:allowBackup="true"
@@ -12,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name=".functionalities.start.StartActivity"></activity>
+        <activity android:name=".functionalities.start.StartActivity" />
         <activity android:name=".functionalities.login.LoginActivity" />
         <activity
             android:name=".functionalities.main.MainActivity"
