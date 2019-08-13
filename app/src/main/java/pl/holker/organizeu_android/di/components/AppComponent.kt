@@ -8,10 +8,11 @@ import pl.holker.organizeu_android.OrganizeU
 import pl.holker.organizeu_android.di.modules.ActivityModule
 import pl.holker.organizeu_android.di.modules.AppModule
 import pl.holker.organizeu_android.di.modules.FragmentsModule
+import pl.holker.organizeu_android.di.modules.RoomModule
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AndroidSupportInjectionModule::class, AppModule::class, ActivityModule::class, FragmentsModule::class])
+@Component(modules = [AndroidSupportInjectionModule::class, AppModule::class, ActivityModule::class, FragmentsModule::class, RoomModule::class])
 interface AppComponent {
     @Component.Builder
     interface Builder {

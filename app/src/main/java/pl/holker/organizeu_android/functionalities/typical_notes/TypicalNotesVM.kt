@@ -11,16 +11,16 @@ import pl.holker.organizeu_android.functionalities.typical_notes.model.TypicalNo
 import javax.inject.Inject
 
 class TypicalNotesVM @Inject constructor(application: Application) : AndroidViewModel(application) {
-    var datasource = NotesDatabase.getInstance(application.applicationContext).noteDao()
+    private var _dataSource = NotesDatabase.getInstance(application.applicationContext).noteDao()
     var event = MutableLiveData<TypicalNoteEvent>()
 
     fun insertNote(title: String, content: String): Completable {
         val note = Note(0, title, content)
-        return datasource.addNote(note)
+        return _dataSource.addNote(note)
     }
 
     fun getAmount(): Flowable<List<Note>> {
-        var list = datasource.getAllNotes()
+        val list = _dataSource.getAllNotes()
         return list.map { listNote: List<Note> ->
             listNote
         }

@@ -8,9 +8,19 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.card_note.view.*
 import pl.holker.organizeu_android.R
 import pl.holker.organizeu_android.data.persistance.Note
+import pl.holker.organizeu_android.data.persistance.NotesDao
+import pl.holker.organizeu_android.di.Injectable
+import javax.inject.Inject
 
-class TypicalNoteViewHolder(val inflater: LayoutInflater, val parent: ViewGroup) :
-    RecyclerView.ViewHolder(inflater.inflate(R.layout.card_note, parent, false)) {
+class TypicalNoteViewHolder(
+    val inflater: LayoutInflater,
+    val parent: ViewGroup
+) :
+    RecyclerView.ViewHolder(inflater.inflate(R.layout.card_note, parent, false)), Injectable {
+
+
+    @Inject
+    lateinit var dataSource: NotesDao
 
     private val TAG = TypicalNoteViewHolder::class.java.name
 
@@ -29,7 +39,11 @@ class TypicalNoteViewHolder(val inflater: LayoutInflater, val parent: ViewGroup)
                     }
                     1 -> {
                         Log.i(TAG, "Delete one was pressed")
-                        TODO("Delete current note from database")
+                        try {
+                            dataSource.deleteNoteById(note.id)
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Error while deleting note by id : ${e.message}")
+                        }
                     }
                     else -> Log.e(TAG, "Empty was picked")
                 }
