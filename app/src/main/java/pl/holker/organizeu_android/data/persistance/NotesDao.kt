@@ -24,6 +24,12 @@ interface NotesDao {
     @Query("DELETE FROM notes")
     fun deleteAllNotes()
 
+    @Query("DELETE FROM notes WHERE note_id = :noteId")
+    fun deleteNoteById(noteId: Int)
+
     @Query("DELETE FROM location_notes")
     fun deleteAllLocationNotes()
+
+    @Query("DELETE FROM location_notes WHERE note_location_id = :noteId")
+    fun deleteLocationNoteById(noteId: Int)
 }
