@@ -3,14 +3,17 @@ package pl.holker.organizeu_android.functionalities.typical_notes.model
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.dialog_add_note.*
 import pl.holker.organizeu_android.R
+import pl.holker.organizeu_android.data.persistance.Note
 import pl.holker.organizeu_android.functionalities.typical_notes.TypicalNotesVM
 
-class AddNoteDialog(var viewModel: TypicalNotesVM) : DialogFragment() {
+class NoteDialog(var viewModel: TypicalNotesVM, val mode: NoteType, val note: Note? = null) :
+    DialogFragment() {
 
-    private val TAG = AddNoteDialog::class.java.name
+    private val TAG = NoteDialog::class.java.name
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
@@ -31,11 +34,26 @@ class AddNoteDialog(var viewModel: TypicalNotesVM) : DialogFragment() {
             dialog.cancel()
         }
         dialog.dialog_add_note_btn_save.setOnClickListener {
-            viewModel.event.value = TypicalNoteEvent.InsertNote(
-                dialog.dialog_add_note_et_title.text.toString(),
-                dialog.dialog_add_note_et_content.text.toString()
-            )
-            dialog.cancel()
+            when (mode) {
+                NoteType.ADD -> {
+                    viewModel.event.value = TypicalNoteEvent.InsertNote(
+                        dialog.dialog_add_note_et_title.text.toString(),
+                        dialog.dialog_add_note_et_content.text.toString()
+                    )
+                    dialog.cancel()
+                }
+                NoteType.EDIT -> {
+                    if (note != null) {
+                        note.title = dialog.dialog_add_note_et_title.text.toString()
+                        note.content = dialog.dialog_add_note_et_content.text.toString()
+                        viewModel.event.value = TypicalNoteEvent.EditNote(note)
+                        dialog.cancel()
+                    } else {
+                        Log.e(TAG, "Cannot edit null note. Paste current note object to dialog")
+                    }
+                }
+            }
+
         }
     }
 }

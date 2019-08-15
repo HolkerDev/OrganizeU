@@ -30,4 +30,8 @@ class TypicalNotesVM @Inject constructor(application: Application) : AndroidView
         return datasource.deleteNoteById(id)
     }
 
+    fun updateNote(note: Note): Completable {
+        return datasource.updateNote(notes = *arrayOf(note))
+    }
+
 }

@@ -1,9 +1,6 @@
 package pl.holker.organizeu_android.data.persistance
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import io.reactivex.Completable
 import io.reactivex.Flowable
 
@@ -32,4 +29,7 @@ interface NoteDao {
 
     @Query("DELETE FROM location_notes WHERE note_location_id = :noteId")
     fun deleteLocationNoteById(noteId: Int)
+
+    @Update
+    fun updateNote(vararg notes: Note): Completable
 }

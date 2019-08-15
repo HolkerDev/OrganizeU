@@ -21,5 +21,4 @@ class TypicalNoteAdapter(var items: List<Note>, val viewModel: TypicalNotesVM) :
         val note = items[position]
         holder.bind(note)
     }
-
 }

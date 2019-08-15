@@ -36,19 +36,11 @@ class TypicalNoteViewHolder(
                 when (which) {
                     0 -> {
                         Log.i(TAG, "Edit was pressed")
-                        TODO("Open edit dialog")
+                        viewModel.event.value = TypicalNoteEvent.ShowEditDialog(note)
                     }
                     1 -> {
                         Log.i(TAG, "Delete one was pressed")
-                        _disposable.add(
-                            viewModel.deleteById(note.id).subscribeOn(Schedulers.io()).observeOn(
-                                AndroidSchedulers.mainThread()
-                            ).subscribe({
-                                //TODO: Done
-                            }, { error ->
-                                Log.e(TAG, "Error while deleting note : ${error.message}")
-                            })
-                        )
+                        deleteNote(note.id)
                     }
                     else -> Log.e(TAG, "Empty was picked")
                 }
@@ -56,5 +48,17 @@ class TypicalNoteViewHolder(
             builder.show()
             return@setOnLongClickListener true
         }
+    }
+
+    private fun deleteNote(id: Int) {
+        _disposable.add(
+            viewModel.deleteById(id).subscribeOn(Schedulers.io()).observeOn(
+                AndroidSchedulers.mainThread()
+            ).subscribe({
+                //TODO: Done
+            }, { error ->
+                Log.e(TAG, "Error while deleting note : ${error.message}")
+            })
+        )
     }
 }
