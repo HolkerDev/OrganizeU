@@ -55,7 +55,7 @@ class TypicalNotesFragment @Inject constructor() : Fragment(), Injectable {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        _adapter = TypicalNoteAdapter(listOf())
+        _adapter = TypicalNoteAdapter(listOf(), _viewModel)
         card_note_recycler_view.layoutManager = GridLayoutManager(context, 2)
         card_note_recycler_view.addItemDecoration(GridSpacingItemDecoration(2, dpToPx(10), true))
         card_note_recycler_view.adapter = _adapter

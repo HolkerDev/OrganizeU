@@ -22,10 +22,10 @@ interface NoteDao {
     fun addLocationNote(noteLocation: NoteLocation): Completable
 
     @Query("DELETE FROM notes")
-    fun deleteAllNotes()
+    fun deleteAllNotes(): Completable
 
     @Query("DELETE FROM notes WHERE note_id = :noteId")
-    fun deleteNoteById(noteId: Int)
+    fun deleteNoteById(noteId: Int): Completable
 
     @Query("DELETE FROM location_notes")
     fun deleteAllLocationNotes()

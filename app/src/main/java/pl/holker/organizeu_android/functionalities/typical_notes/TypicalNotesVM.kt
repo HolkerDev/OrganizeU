@@ -26,4 +26,8 @@ class TypicalNotesVM @Inject constructor(application: Application) : AndroidView
         }
     }
 
+    fun deleteById(id: Int): Completable {
+        return datasource.deleteNoteById(id)
+    }
+
 }
