@@ -6,12 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import pl.holker.organizeu_android.data.persistance.Note
-import pl.holker.organizeu_android.data.persistance.NotesDatabase
+import pl.holker.organizeu_android.data.persistance.NoteDatabase
 import pl.holker.organizeu_android.functionalities.typical_notes.model.TypicalNoteEvent
 import javax.inject.Inject
 
 class TypicalNotesVM @Inject constructor(application: Application) : AndroidViewModel(application) {
-    var datasource = NotesDatabase.getInstance(application.applicationContext).noteDao()
+    var datasource = NoteDatabase.getInstance(application.applicationContext).noteDao()
     var event = MutableLiveData<TypicalNoteEvent>()
 
     fun insertNote(title: String, content: String): Completable {

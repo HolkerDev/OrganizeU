@@ -8,7 +8,7 @@ import io.reactivex.Completable
 import io.reactivex.Flowable
 
 @Dao
-interface NotesDao {
+interface NoteDao {
     @Query("SELECT * FROM notes")
     fun getAllNotes(): Flowable<List<Note>>
 
