@@ -30,9 +30,13 @@ class NoteDialog(var viewModel: TypicalNotesVM, val mode: NoteType, val note: No
 
     override fun onStart() {
         super.onStart()
+
+        initView()
+
         dialog.dialog_add_note_btn_discard.setOnClickListener {
             dialog.cancel()
         }
+
         dialog.dialog_add_note_btn_save.setOnClickListener {
             when (mode) {
                 NoteType.ADD -> {
@@ -54,6 +58,13 @@ class NoteDialog(var viewModel: TypicalNotesVM, val mode: NoteType, val note: No
                 }
             }
 
+        }
+    }
+
+    private fun initView() {
+        if (mode == NoteType.EDIT && note != null) {
+            dialog.dialog_add_note_et_title.setText(note.title)
+            dialog.dialog_add_note_et_content.setText(note.content)
         }
     }
 }
