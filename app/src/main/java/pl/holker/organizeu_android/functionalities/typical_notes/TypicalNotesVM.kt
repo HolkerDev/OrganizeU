@@ -20,7 +20,7 @@ class TypicalNotesVM @Inject constructor(application: Application) : AndroidView
     }
 
     fun getAmount(): Flowable<List<Note>> {
-        var list = datasource.getAllNotes()
+        val list = datasource.getAllNotes()
         return list.map { listNote: List<Note> ->
             listNote
         }

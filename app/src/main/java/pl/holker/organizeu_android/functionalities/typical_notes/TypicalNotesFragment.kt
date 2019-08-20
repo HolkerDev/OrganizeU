@@ -41,9 +41,8 @@ class TypicalNotesFragment @Inject constructor() : Fragment(), Injectable {
 
         _binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_typical_notes, container, false)
-        _viewModel =
-            ViewModelProviders.of(this, viewModelInjectionFactory)
-                .get(TypicalNotesVM::class.java)
+        _viewModel = ViewModelProviders.of(this, viewModelInjectionFactory)
+            .get(TypicalNotesVM::class.java)
 
         _binding.viewModel = _viewModel
         return _binding.root

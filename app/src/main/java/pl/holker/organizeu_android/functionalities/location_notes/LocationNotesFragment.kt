@@ -1,29 +1,45 @@
 package pl.holker.organizeu_android.functionalities.location_notes
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import kotlinx.android.synthetic.main.fragment_location_notes.*
 import pl.holker.organizeu_android.R
+import pl.holker.organizeu_android.databinding.FragmentLocationNoteBinding
+import pl.holker.organizeu_android.di.Injectable
+import pl.holker.organizeu_android.di.ViewModelInjectionFactory
+import javax.inject.Inject
 
-class LocationNotesFragment : Fragment(), OnMapReadyCallback {
-    private lateinit var mMap: GoogleMap
+class LocationNotesFragment @Inject constructor() : Fragment(), Injectable, OnMapReadyCallback {
+
+    private val TAG = LocationNotesFragment::class.java.name
+
+    private lateinit var _viewModel: LocationNotesVM
+    private lateinit var _binding: FragmentLocationNoteBinding
+
+    @Inject
+    lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<LocationNotesVM>
+
+
+    private lateinit var _map: GoogleMap
 
     override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
-
+        _map = googleMap
+        Log.i(TAG, "onMapReady method was invoked")
         // Add a marker in Sydney and move the camera
         val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        _map.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+        _map.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 
     override fun onCreateView(
@@ -31,13 +47,22 @@ class LocationNotesFragment : Fragment(), OnMapReadyCallback {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_location_notes, container, false)
+        _binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_location_note, container, false)
+        _viewModel =
+            ViewModelProviders.of(this, viewModelInjectionFactory).get(LocationNotesVM::class.java)
+        _binding.viewModel = _viewModel
+        return _binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onStart() {
+        super.onStart()
         val mapFragment =
-            fragment_location_notes_map as SupportMapFragment?
+            fragmentManager?.findFragmentById(R.id.fragment_location_notes_map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
     }
 }
