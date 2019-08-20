@@ -4,11 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import pl.holker.organizeu_android.data.persistance.Note
+import pl.holker.organizeu_android.functionalities.typical_notes.TypicalNotesVM
 
-class TypicalNoteAdapter(var items: List<Note>) : RecyclerView.Adapter<TypicalNoteViewHolder>() {
+class TypicalNoteAdapter(var items: List<Note>, val viewModel: TypicalNotesVM) :
+    RecyclerView.Adapter<TypicalNoteViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TypicalNoteViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return TypicalNoteViewHolder(inflater, parent)
+        return TypicalNoteViewHolder(inflater, parent, viewModel)
     }
 
     override fun getItemCount(): Int {
@@ -19,5 +21,4 @@ class TypicalNoteAdapter(var items: List<Note>) : RecyclerView.Adapter<TypicalNo
         val note = items[position]
         holder.bind(note)
     }
-
 }

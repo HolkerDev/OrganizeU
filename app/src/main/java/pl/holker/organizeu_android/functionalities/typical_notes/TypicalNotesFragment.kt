@@ -19,10 +19,7 @@ import pl.holker.organizeu_android.R
 import pl.holker.organizeu_android.databinding.FragmentTypicalNotesBinding
 import pl.holker.organizeu_android.di.Injectable
 import pl.holker.organizeu_android.di.ViewModelInjectionFactory
-import pl.holker.organizeu_android.functionalities.typical_notes.model.AddNoteDialog
-import pl.holker.organizeu_android.functionalities.typical_notes.model.GridSpacingItemDecoration
-import pl.holker.organizeu_android.functionalities.typical_notes.model.TypicalNoteAdapter
-import pl.holker.organizeu_android.functionalities.typical_notes.model.TypicalNoteEvent
+import pl.holker.organizeu_android.functionalities.typical_notes.model.*
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -44,9 +41,8 @@ class TypicalNotesFragment @Inject constructor() : Fragment(), Injectable {
 
         _binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_typical_notes, container, false)
-        _viewModel =
-            ViewModelProviders.of(this, viewModelInjectionFactory)
-                .get(TypicalNotesVM::class.java)
+        _viewModel = ViewModelProviders.of(this, viewModelInjectionFactory)
+            .get(TypicalNotesVM::class.java)
 
         _binding.viewModel = _viewModel
         return _binding.root
@@ -55,7 +51,7 @@ class TypicalNotesFragment @Inject constructor() : Fragment(), Injectable {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        _adapter = TypicalNoteAdapter(listOf())
+        _adapter = TypicalNoteAdapter(listOf(), _viewModel)
         card_note_recycler_view.layoutManager = GridLayoutManager(context, 2)
         card_note_recycler_view.addItemDecoration(GridSpacingItemDecoration(2, dpToPx(10), true))
         card_note_recycler_view.adapter = _adapter
@@ -68,7 +64,7 @@ class TypicalNotesFragment @Inject constructor() : Fragment(), Injectable {
         initObservables()
 
         floatingActionButton.setOnClickListener {
-            val dialog = AddNoteDialog(viewModel = _viewModel)
+            val dialog = NoteDialog(viewModel = _viewModel, mode = NoteType.ADD)
             dialog.show(childFragmentManager, "Add note")
         }
 
@@ -85,7 +81,6 @@ class TypicalNotesFragment @Inject constructor() : Fragment(), Injectable {
                 Log.e(TAG, "Error while pulling notes : ${error.message}")
             })
         )
-
     }
 
     private fun initObservables() {
@@ -103,6 +98,23 @@ class TypicalNotesFragment @Inject constructor() : Fragment(), Injectable {
                             Log.e(TAG, "Error while adding a new note : ${error.message}")
                         })
                     )
+                }
+                is TypicalNoteEvent.EditNote -> {
+                    _disposable.add(
+                        _viewModel.updateNote(action.note)
+                            .subscribeOn(Schedulers.io()).observeOn(
+                                AndroidSchedulers.mainThread()
+                            ).subscribe({
+
+                            }, {
+                                Log.i(TAG, "Error while updating note : ${it.message}")
+                            })
+                    )
+                }
+                is TypicalNoteEvent.ShowEditDialog -> {
+                    val dialog =
+                        NoteDialog(viewModel = _viewModel, mode = NoteType.EDIT, note = action.note)
+                    dialog.show(childFragmentManager, "Add note")
                 }
             }
         })
