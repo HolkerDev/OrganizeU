@@ -4,4 +4,8 @@
     <string name="user_id">user_id</string>
     <string name="shared_pref">OrganizeU</string>
     <string name="is_logged">isLogged</string>
+    <string name="title">Title</string>
+    <string name="discard">Discard</string>
+    <string name="save">Save</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

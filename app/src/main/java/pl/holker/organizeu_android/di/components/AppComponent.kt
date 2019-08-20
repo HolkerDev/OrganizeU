@@ -7,10 +7,11 @@ import dagger.android.support.AndroidSupportInjectionModule
 import pl.holker.organizeu_android.OrganizeU
 import pl.holker.organizeu_android.di.modules.ActivityModule
 import pl.holker.organizeu_android.di.modules.AppModule
+import pl.holker.organizeu_android.di.modules.FragmentsModule
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AndroidSupportInjectionModule::class, AppModule::class, ActivityModule::class])
+@Component(modules = [AndroidSupportInjectionModule::class, AppModule::class, ActivityModule::class, FragmentsModule::class])
 interface AppComponent {
     @Component.Builder
     interface Builder {

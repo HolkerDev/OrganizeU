@@ -11,7 +11,7 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class AppModule{
+class AppModule {
     @Provides
     @Singleton
     fun provideResources(app: Application): Resources = app.resources

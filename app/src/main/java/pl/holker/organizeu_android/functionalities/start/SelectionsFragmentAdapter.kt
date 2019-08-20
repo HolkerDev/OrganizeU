@@ -14,7 +14,7 @@ class SelectionsFragmentAdapter(fragmentManager: FragmentManager) :
 
     override fun getCount(): Int = mFragmentsList.size
 
-    override fun getPageTitle(position: Int): CharSequence? = mFragmentsTitles.get(position)
+    override fun getPageTitle(position: Int): CharSequence? = null //mFragmentsTitles.get(position)
 
     fun addFragment(title: String, fragment: Fragment) {
         mFragmentsList.add(fragment)
