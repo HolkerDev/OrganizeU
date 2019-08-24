@@ -57,12 +57,8 @@ class LocationNotesFragment @Inject constructor() : Fragment(), Injectable, OnMa
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-    }
-
-    override fun onStart() {
-        super.onStart()
         val mapFragment =
-            fragmentManager?.findFragmentById(R.id.fragment_location_notes_map) as SupportMapFragment?
-        mapFragment?.getMapAsync(this)
+            childFragmentManager.findFragmentById(R.id.fragment_location_notes_map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
     }
 }
